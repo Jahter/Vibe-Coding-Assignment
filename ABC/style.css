@@ -1,0 +1,885 @@
+/* ===================================================================
+   ABC Logistics — High-Fidelity Professional Dashboard
+   =================================================================== */
+
+:root {
+    /* Brand Colors */
+    --brand-primary: #CC0633;
+    --brand-primary-hover: #A30529;
+    --brand-primary-light: rgba(204, 6, 51, 0.08);
+    --brand-primary-alpha: rgba(204, 6, 51, 0.15);
+
+    /* Light Theme Palette (Default) */
+    --bg-base: #F4F5F7;
+    --bg-app: radial-gradient(circle at top center, #ffffff 0%, #F4F5F7 100%);
+    --bg-surface: rgba(255, 255, 255, 0.85);
+    --bg-surface-solid: #FFFFFF;
+    --bg-surface-hover: #F9FAFB;
+
+    --border-color: rgba(0, 0, 0, 0.06);
+    --border-light: rgba(0, 0, 0, 0.03);
+
+    --text-primary: #111827;
+    --text-secondary: #4B5563;
+    --text-tertiary: #9CA3AF;
+    --text-inverse: #FFFFFF;
+
+    --error-color: #EF4444;
+    --error-bg: #FEF2F2;
+    --success-color: #10B981;
+
+    /* Typography */
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Outfit', var(--font-sans);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.03), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    --shadow-glow: 0 0 20px rgba(204, 6, 51, 0.3);
+
+    /* Layout */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme='dark'] {
+    --bg-base: #0B0F19;
+    --bg-app: radial-gradient(circle at top center, #111827 0%, #0B0F19 100%);
+    --bg-surface: rgba(31, 41, 55, 0.55);
+    --bg-surface-solid: #111827;
+    --bg-surface-hover: #1F2937;
+
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-light: rgba(255, 255, 255, 0.04);
+
+    --text-primary: #F9FAFB;
+    --text-secondary: #9CA3AF;
+    --text-tertiary: #6B7280;
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Global Styles ──────────────────────────────── */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+.app-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-app);
+    z-index: -1;
+    transition: background var(--transition-normal);
+}
+
+/* ── Typography & Utilities ─────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+/* ── Navigation ─────────────────────────────────── */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 4%;
+    background: var(--bg-surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: transform var(--transition-bounce);
+}
+
+.logo:hover {
+    transform: scale(1.02);
+}
+
+.logo-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    background: var(--brand-primary-light);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-icon {
+    width: 6px;
+    height: 18px;
+    background-color: var(--brand-primary);
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.logo h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-links li a i {
+    font-size: 1.1rem;
+}
+
+.nav-links li a:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-hover);
+}
+
+.nav-links li a.active {
+    color: var(--brand-primary);
+    background: var(--brand-primary-light);
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-bounce);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-hover);
+    transform: rotate(15deg) scale(1.1);
+}
+
+/* ── Layout & Header ────────────────────────────── */
+.dashboard-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 4%;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.dashboard-header h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.25rem;
+}
+
+.dashboard-header p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+}
+
+/* ── Grid System ────────────────────────────────── */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    grid-template-areas:
+        "input chart"
+        "input list"
+        "input list";
+    gap: 1.5rem;
+}
+
+/* ── Glass Panels ───────────────────────────────── */
+.glass-panel {
+    background: var(--bg-surface-solid);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.glass-panel:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.panel-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--bg-base);
+    color: var(--brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    border: 1px solid var(--border-color);
+}
+
+/* ── Forms & Inputs ─────────────────────────────── */
+.input-section {
+    grid-area: input;
+    align-self: start;
+    position: sticky;
+    top: 6rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--text-tertiary);
+    font-size: 1.1rem;
+    transition: color var(--transition-fast);
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.6rem;
+    background: var(--bg-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    transition: all var(--transition-fast);
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    background: var(--bg-surface-solid);
+    box-shadow: 0 0 0 4px var(--brand-primary-alpha);
+}
+
+.input-wrapper input:focus+.input-icon,
+.input-wrapper input:focus~.input-icon {
+    color: var(--brand-primary);
+}
+
+.error-msg {
+    display: block;
+    color: var(--error-color);
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    min-height: 1.2em;
+}
+
+/* ── Buttons ────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all var(--transition-bounce);
+    border: none;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: var(--brand-primary);
+    color: #fff;
+    width: 100%;
+    font-weight: 600;
+}
+
+/* Ripple effect container */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    transition: transform 0.5s;
+}
+
+.btn-primary:active::after {
+    transform: translate(-50%, -50%) scale(1);
+    transition: 0s;
+}
+
+.btn-primary:hover {
+    background: var(--brand-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.btn-primary:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.btn-secondary {
+    background: var(--bg-surface-solid);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-base);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline-danger {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--error-color);
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+.btn-outline-danger:hover {
+    border-color: var(--error-color);
+    background: var(--error-bg);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+}
+
+/* ── Chart Section ──────────────────────────────── */
+.chart-section {
+    grid-area: chart;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.chart-container {
+    position: relative;
+    flex-grow: 1;
+    width: 100%;
+    min-height: 250px;
+}
+
+/* ── Segmented Control (Toggle) ─────────────────── */
+.switcher {
+    display: flex;
+    position: relative;
+    background: var(--bg-base);
+    border-radius: 20px;
+    padding: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.toggle-btn {
+    position: relative;
+    z-index: 10;
+    flex: 1;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 16px;
+    transition: color 0.3s, background 0.3s;
+}
+
+.toggle-btn.active {
+    background: var(--bg-surface-solid);
+    box-shadow: var(--shadow-sm);
+    color: var(--brand-primary);
+    border-radius: 16px;
+}
+
+/* ── Table & Lists ──────────────────────────────── */
+.list-section {
+    grid-area: list;
+    min-height: 250px;
+}
+
+.table-container {
+    overflow-x: auto;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    background: var(--bg-surface-solid);
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.inventory-table th {
+    background: var(--bg-base);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+}
+
+.inventory-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+.inventory-table tbody tr {
+    transition: all var(--transition-fast);
+    background: var(--bg-surface-solid);
+}
+
+.inventory-table tbody tr:hover {
+    background: var(--bg-surface-hover);
+}
+
+/* Row entrance animation */
+@keyframes slideInRow {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tr-animate {
+    animation: slideInRow 0.3s ease-out forwards;
+}
+
+.td-val {
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-tertiary);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.action-cell {
+    text-align: center;
+    width: 80px;
+}
+
+/* Delete Button Micro-interaction */
+.btn-delete {
+    background: var(--bg-base);
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all var(--transition-bounce);
+}
+
+.btn-delete:hover {
+    background: var(--error-bg);
+    color: var(--error-color);
+    border-color: rgba(239, 68, 68, 0.2);
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* ── About Page Profile ─────────────────────────── */
+.about-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+}
+
+.profile-section {
+    max-width: 540px;
+    width: 100%;
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.profile-header h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.profile-avatar-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 1.5rem;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--bg-surface-solid);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    z-index: 2;
+    transition: transform var(--transition-bounce);
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+.pulse-ring::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    background: var(--brand-primary-light);
+    z-index: 1;
+    animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+.badge-wrapper {
+    margin-bottom: 1.25rem;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.85rem;
+    background: var(--brand-primary-light);
+    color: var(--brand-primary);
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.profile-details .bio {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 auto 2rem;
+    max-width: 440px;
+}
+
+.tech-stack h4 {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+}
+
+.tag {
+    background: var(--bg-base);
+    border: 1px solid var(--border-color);
+    padding: 0.4rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all var(--transition-bounce);
+}
+
+.tag:hover {
+    background: var(--bg-surface-hover);
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+/* ── Animations ─────────────────────────────────── */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-slide-down {
+    animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.animate-scale-in {
+    opacity: 0;
+    animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger-1 {
+    animation-delay: 0.1s;
+}
+
+.stagger-2 {
+    animation-delay: 0.2s;
+}
+
+.stagger-3 {
+    animation-delay: 0.3s;
+}
+
+.stagger-4 {
+    animation-delay: 0.4s;
+}
+
+/* ── Responsive ─────────────────────────────────── */
+@media (max-width: 992px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "input"
+            "chart"
+            "list";
+    }
+
+    .input-section {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-group.grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-container {
+        padding: 2rem 4%;
+    }
+}
